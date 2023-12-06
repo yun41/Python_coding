@@ -1,0 +1,9 @@
+BEST2018 = set(['MESSI', 'RONALDO', 'MBAPE', 'HAZARD', 'KANTE', 'MODRIC', 'MARCELO', 'RAMOS', 'VARANE', 'ALVES', 'DEGEA'])
+BEST2017 = set(['MESSI', 'SUAREZ', 'RONALDO', 'INIESTA', 'KROOS', 'MODRIC', 'MARCELO', 'RAMOS', 'PIQUE', 'ALVES', 'NEUER'])
+
+print("교집합 : ")
+print(BEST2018&BEST2017)
+print("합집합 : ")
+print(BEST2018|BEST2017)
+print("차집합 : ")
+print(BEST2018-BEST2017)
