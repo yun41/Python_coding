@@ -1,4 +1,7 @@
-i = 36
-num = str(i)
+m = []
+p = []
 
-print(num)
+for i in range(2):
+    m[i], p[i] = list(map(int, input().split()))
+
+print(m)
