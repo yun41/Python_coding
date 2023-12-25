@@ -1,5 +1,7 @@
-storage = list(map(int, input().split()))
-sot = [5,1,4]
-
-if sot[1] in storage:
-    print(storage.index(sot[1]))
+storage = 'dosan'
+short = 'os'
+print(short)
+if short in storage:
+    print('true')
+else:
+    print('false')
