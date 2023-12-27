@@ -20,9 +20,6 @@ for _ in range(T):
     # 문자열 결합
     original_light = ' '*(5-len(original_light)) + original_light
     changed_light = ' '*(5-len(changed_light)) + changed_light
-    
-    print(original_light)
-    print(changed_light)
 
     count = 0
     for i in range(5):
