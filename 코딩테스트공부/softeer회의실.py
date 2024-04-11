@@ -44,4 +44,3 @@ for room_name_index in range(N):
 
     if room_name_index != N - 1:
         print('-----')
-    
