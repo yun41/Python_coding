@@ -1,0 +1,5 @@
+list_num = list(map(int,input('5개의 수를 입력하세요: ').split()))
+print(f'합 : {sum(list_num)}')
+print(f'평균 : {sum(list_num)/len(list_num)}')
+print(f'최댓값 : {max(list_num)}')
+print(f'최솟값 : {min(list_num)}')

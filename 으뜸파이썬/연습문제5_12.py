@@ -1,0 +1,7 @@
+n = int(input('n을 입력하세요 : '))
+print(f'{n}개의 수를 입력하세요: ',end='')
+list_n = list(map(int, input().split()))
+print('합 :',sum(list_n))
+print('평균 :',sum(list_n)/len(list_n))
+print('최댓값 :',max(list_n))
+print('최솟값 :',min(list_n))

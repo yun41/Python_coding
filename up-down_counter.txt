@@ -1,0 +1,50 @@
+`define DEL 1
+`define BITS 8
+
+module Count(count_en,out,clk,in,reset_n,preset_n,load,up_down);
+
+output [`BITS-1:0] out;
+
+input [`BITS-1:0] in;
+input count_en,clk,reset_n,preset_n,load,up_down;
+
+wire clk,reset_n,preset_n,load,up_down;
+wire [`BITS-1:0] in;
+
+reg [`BITS-1:0] out;
+
+always@(posedge clk or negedge reset_n or negedge preset_n)
+    begin
+    if(~reset_n) #`DEL out <= `BITS'h0;
+    else if(~preset_n) #`DEL out <= ~`BITS'h0;
+    else if(load) out <= #`DEL in;
+    else if(count_en) begin
+        if(up_down) out <= #`DEL out + `BITS'b1;
+        else out <= #`DEL out - `BITS'b1;
+    end
+end
+endmodule
+
+
+`timescale 1ns/1ns
+`define BITS 8
+module tb_Count;
+
+reg [`BITS-1:0] in;
+reg count_en,clk,reset_n,preset_n,load,up_down;
+wire [`BITS-1:0] out;
+
+Count Count_1 (count_en,out,clk,in,reset_n,preset_n,load,up_down);
+
+always #10 clk=~clk;
+
+initial begin
+reset_n=1; preset_n=1; load=0; up_down=0; count_en=0; in=10; clk=0;
+#15 reset_n=0;
+#10 reset_n=1;
+#15 load=1;
+#20 load=0;
+#10 count_en=1;
+#80 up_down=1;
+end
+endmodule

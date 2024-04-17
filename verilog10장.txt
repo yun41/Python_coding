@@ -1,0 +1,87 @@
+`define TAP2 2'b11
+`define TAP3 3'b101
+`define TAP4 4'b1001
+`define TAP5 5'b10010
+`define TAP6 6'b100001
+`define TAP7 7'b1000001
+`define TAP8 8'b10001110
+`define TAP9 9'b10000100_0
+`define TAP10 10'b10000001_00
+`define TAP11 11'b10000000_010
+`define TAP12 12'b10000010_1001
+`define TAP13 13'b10000000_01101
+`define TAP14 14'b10000000_010101
+`define TAP15 15'b10000000_0000001
+`define TAP16 16'b10000000_00010110
+`define TAP17 17'b10000000_00000010_0
+`define TAP18 18'b10000000_00100000_00
+`define TAP19 19'b10000000_00000010_011
+`define TAP20 20'b10000000_00000000_0100
+`define TAP21 21'b10000000_00000000_00010
+`define TAP22 22'b10000000_00000000_000001
+`define TAP23 23'b10000000_00000000_0010000
+`define TAP24 24'b10000000_00000000_00001101
+`define TAP25 25'b10000000_00000000_00000010_0
+`define TAP26 26'b10000000_00000000_00001000_11
+`define TAP27 27'b10000000_00000000_00000010_011
+`define TAP28 28'b10000000_00000000_00000000_0100
+`define TAP29 29'b10000000_00000000_00000000_00010
+`define TAP30 30'b10000000_00000000_00000000_101001
+`define TAP31 31'b10000000_00000000_00000000_0000100
+`define TAP24 32'b10000000_00000000_00000000_01100010
+
+`define TAPS    `TAP8
+
+module LFSR (Clock,Reset,Y);
+    parameter Width=8;
+
+    input Clock, Reset;
+    output [Width - 1:0] Y;
+
+    wire [Width - 1:0] Taps;
+
+    integer N;
+
+    reg Bits0_Nminus1_Zero, Feedback;
+    reg [Width - 1:0] LFSR_Reg, Next_LFSR_Reg;
+
+    assign Taps[Width - 1:0] = `TAPS;
+
+always@(negedge Reset or posedge Clock)
+    begin : LFSR_Register
+        if(!Reset)
+            LFSR_Reg = 0;
+        else
+            LFSR_Reg = Next_LFSR_Reg;
+    end
+
+always@(LFSR_Reg)
+    begin : LFSR_Feedback
+        Bits0_Nminus1_Zero = ~|LFSR_Reg[Width - 2:0];
+        Feedback = LFSR_Reg[Width-1]^Bits0_Nminus1_Zero;
+    for(N=Width-1;N>=1;N=N-1)
+        if(Taps[N-1]==1)
+            Next_LFSR_Reg[N] = LFSR_Reg[N-1]^Feedback;
+        else
+            Next_LFSR_Reg[N] = LFSR_Reg[N-1];
+    Next_LFSR_Reg[0] = Feedback;
+    end
+
+    assign Y = LFSR_Reg;
+endmodule
+
+
+`timescale 1ns/1ns
+module tb_LFSR;
+reg Clock;
+reg Reset;
+wire [7:0] Y;
+LFSR LFSR_1 (.Clock(Clock), .Reset(Reset), .Y(Y));
+
+always #100 Clock=~Clock;
+initial begin
+Reset=0; Clock=1;
+#50 Reset=1;
+#2000 Reset=0;
+end
+endmodule
